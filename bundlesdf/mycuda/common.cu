@@ -117,7 +117,7 @@ at::Tensor sampleRaysUniformOccupiedVoxels(const at::Tensor z_in_out,  const at:
   const int threadx = 32;
   const int thready = 32;
 
-  AT_DISPATCH_FLOATING_TYPES(z_in_out.type(), "sample_rays_uniform_occupied_voxels_kernel", ([&]
+  AT_DISPATCH_FLOATING_TYPES(z_in_out.scalar_type(), "sample_rays_uniform_occupied_voxels_kernel", ([&]
   {
     sample_rays_uniform_occupied_voxels_kernel<scalar_t><<<{divCeil(N_rays,threadx),divCeil(N_samples,thready)}, {threadx,thready}>>>(z_sampled.packed_accessor32<scalar_t,2,torch::RestrictPtrTraits>(),z_in_out.packed_accessor32<scalar_t,3,torch::RestrictPtrTraits>(),z_vals.packed_accessor32<scalar_t,2,torch::RestrictPtrTraits>());
   }));
